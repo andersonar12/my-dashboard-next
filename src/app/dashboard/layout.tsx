@@ -1,4 +1,4 @@
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../../components/Sidebar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -7,7 +7,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* sidebar */}
         <Sidebar />
         {/* main content - children */}
-        <div className="p-2 w-full text-slate-900">{children}</div>
+        <div className=" w-full text-slate-900">{children}</div>
       </div>
     </div>
   );
