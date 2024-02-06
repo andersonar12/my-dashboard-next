@@ -1,6 +1,10 @@
 import { Pokemon, PokemonsResponse } from "@/interfaces/pokemons";
-import PokemonGrid from "./componets/PokemonGrid";
-import { notFound } from "next/navigation";
+import PokemonGrid from "./components/PokemonGrid";
+
+export const metadata = {
+  title: "Pokemons",
+  description: "Listado de pokemons",
+};
 
 const getPokemons = async (limit = 20, offset = 0): Promise<Pokemon[]> => {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
@@ -11,7 +15,7 @@ const getPokemons = async (limit = 20, offset = 0): Promise<Pokemon[]> => {
     name: pokemon.name,
   }));
 
-  //   throw notFound();
+  // console.log({ pokemons });
 
   return pokemons;
 };

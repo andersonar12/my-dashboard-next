@@ -1,11 +1,11 @@
-import { FullInfoPokemon } from "@/interfaces/pokemons";
-import BackButton from "../components/BackButton";
+import { FullInfoPokemon, PokemonsResponse } from "@/interfaces/pokemons";
+import BackButton from "../../pokemon/components/BackButton";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-const getPokemon = async (id: string) => {
+const getPokemon = async (name: string) => {
   try {
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`, {
       // cache: "force-cache",
       next: { revalidate: 10 },
     });
@@ -16,14 +16,21 @@ const getPokemon = async (id: string) => {
   }
 };
 
-//En build time - npm run build && npm run start
+// En build time - npm run build && npm run start
 export async function generateStaticParams() {
-  return Array.from({ length: 120 }).map((__, index) => ({ id: (index + 1).toString() }));
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=151`);
+  const data: PokemonsResponse = await res.json();
+
+  const pokemons = data.results.map((pokemon) => ({
+    name: pokemon.name,
+  }));
+
+  return pokemons;
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: { params: { name: string } }) {
   try {
-    const pokemon = await getPokemon(params.id);
+    const pokemon = await getPokemon(params.name);
 
     const capitalize = (text: string) => {
       return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
@@ -41,8 +48,8 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   }
 }
 
-export default async function PokemonPage({ params }: { params: { id: string } }) {
-  const pokemon = await getPokemon(params.id);
+export default async function PokemonPage({ params }: { params: { name: string } }) {
+  const pokemon = await getPokemon(params.name);
 
   return (
     <div>
