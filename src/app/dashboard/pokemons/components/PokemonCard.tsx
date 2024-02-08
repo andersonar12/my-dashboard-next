@@ -1,10 +1,22 @@
-import { Pokemon } from "@/interfaces/pokemons";
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { IoHeartOutline } from "react-icons/io5";
+import { useEffect } from "react";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { Pokemon } from "@/interfaces/pokemons";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { toggleFavorite } from "@/store/pokemons/pokemons";
 
 export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
+  const { id, name } = pokemon;
+  const isFavorite = useAppSelector((state) => !!state.pokemons["favorites"][id]); //<--seria lo mismo que state.pokemons[id] !== undefined
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // console.log({ isFavorite });
+  }, []);
+
   return (
     <div className="mx-auto right-0 mt-2 w-60">
       <div className="bg-white rounded overflow-hidden shadow-lg">
@@ -31,15 +43,21 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
           </div>
         </div>
         <div className="border-b">
-          <Link href="/account/main" className="px-4 py-2 hover:bg-gray-100 flex">
+          {/* <Link href="/account/main" className="px-4 py-2 hover:bg-gray-100 flex"> */}
+          <div
+            onClick={() => dispatch(toggleFavorite(pokemon))}
+            className="px-4 py-2 hover:bg-gray-100 flex cursor-pointer"
+          >
             <div className="text-gray-800">
-              <IoHeartOutline size={30} />
+              {isFavorite ? <IoHeart size={30} /> : <IoHeartOutline size={30} />}
             </div>
             <div className="pl-3">
-              <p className="text-sm font-medium text-gray-800 leading-none">No es favorito</p>
-              <p className="text-xs text-gray-500">Haz click en el Pokemon</p>
+              <p className="text-sm font-medium text-gray-800 leading-none">
+                {isFavorite ? "Es Favorito" : "No es favorito"}
+              </p>
+              <p className="text-xs text-gray-500">Haz click para cambiar</p>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </div>

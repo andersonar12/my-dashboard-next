@@ -8,7 +8,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    console.log({ method: await request.json() })
+    // console.log({ method: await request.json() })
 
     return NextResponse.json({ method: request.method, count: 100 })
 }
