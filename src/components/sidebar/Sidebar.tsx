@@ -1,13 +1,14 @@
 import Image from "next/image";
-import { IoLogoReact } from "react-icons/io5";
-import { IoMedkit, IoCalculator, IoCube } from "react-icons/io5";
+import { IoHeartHalfOutline, IoHeartOutline, IoLogoReact } from "react-icons/io5";
+import { IoCalculator, IoCube, IoBrowsers } from "react-icons/io5";
+
 import SidebarMenuItem from "./SidebarMenuItem";
 
 export const menuItems = [
   {
     title: "Dashboard",
     subtitle: "Pagina Principal",
-    icon: <IoMedkit fontSize={30} />,
+    icon: <IoBrowsers fontSize={30} />,
     path: "/dashboard/main",
   },
   {
@@ -22,7 +23,14 @@ export const menuItems = [
     icon: <IoCube fontSize={30} />,
     path: "/dashboard/pokemons",
   },
+  {
+    title: "Favoritos",
+    subtitle: "Global State",
+    icon: <IoHeartOutline fontSize={30} />,
+    path: "/dashboard/favorites",
+  },
 ];
+
 export default function Sidebar() {
   return (
     <div
